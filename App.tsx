@@ -1,28 +1,31 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {
+  Button,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, { use } from 'react';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import ZoomFeature from './src/components/ZoomFeature';
+import OtherMethods from './src/components/OtherMethods';
+import FadeInScaleUp from './src/assignment/FadeInScaleUp';
+import MoveBox from './src/assignment/MoveBox';
+import HeartBeatEffect from './src/assignment/HeartBeatEffect';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import DraggableBox from './src/components/GestureFeature';
+const { width, height } = Dimensions.get('window');
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const App = () => {
+  return <GestureHandlerRootView><DraggableBox /></GestureHandlerRootView>;
+};
 
 export default App;
+
+const styles = StyleSheet.create({});
