@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -11,26 +11,34 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
+const { height, width } = Dimensions.get('window');
+
 export default function DraggableBox() {
   const translateX = useSharedValue(0);
+  const prevTranslateX = useSharedValue(0);
+
   const translateY = useSharedValue(0);
+  const prevTranslateY = useSharedValue(0);
 
   // ✅ Modern gesture creation
   const panGesture = Gesture.Pan()
-    .onStart((data) => {
-        console.log('Finger down', data);
+    .onStart(data => {
       // Optional: you can capture something on start
     })
-    .onUpdate((event) => {
-      console.log('Finger have', event);
-      translateX.value = event.translationX;
-      translateY.value = event.translationY;
+    .onUpdate(event => {
+      const rawX = prevTranslateX.value + event.translationX;
+      const rawY = prevTranslateY.value + event.translationY;
+      translateX.value = Math.max(0, Math.min(rawX, (width-100)));
+      translateY.value = Math.max(0,Math.min(rawY, (height-100)));
+  
     })
-    .onEnd((event) => {
+    .onEnd(event => {
       // Snap back with animation
-      console.log('Finger Up', event);
-      translateX.value = withSpring(0);
-      translateY.value = withSpring(0);
+      translateX.value = Math.floor(translateX.value/((width-100)/2)) === 0 ? 0: width-100
+      prevTranslateX.value = translateX.value;
+      prevTranslateY.value = translateY.value;
+      // translateX.value = withSpring(0);
+      // translateY.value = withSpring(0);
     });
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -42,7 +50,7 @@ export default function DraggableBox() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, }}>
         <GestureDetector gesture={panGesture}>
           <Animated.View
             style={[
