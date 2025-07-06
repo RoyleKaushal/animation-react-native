@@ -28,6 +28,32 @@ const FadeInExample = () => {
     }).start()
   }
 
+  const sequenceAnimation = () => {
+    Animated.sequence([
+      Animated.spring(opacity,{
+        toValue: 1,
+        useNativeDriver: true
+      }),
+      Animated.timing(translateX, {
+        toValue: 250,
+        useNativeDriver: true
+      })
+    ]).start()
+  }
+
+  const parallelAnimation =() => {
+    Animated.parallel([
+      Animated.spring(opacity,{
+        toValue: 1,
+        useNativeDriver: true
+      }),
+      Animated.timing(translateX, {
+        toValue: 250,
+        useNativeDriver: true
+      })
+    ]).start()
+  }
+
   const resetAll = () => {
     Animated.spring(translateX,{
         toValue: 200,
@@ -46,7 +72,10 @@ const FadeInExample = () => {
       <Animated.View style={[styles.box, { opacity, transform:[{translateX}] }]} />
       <Button title="Fade In" onPress={fadeIn} />
       <Button title="Move" onPress={moveHorizontally} />
+      <Button title="Sequence" onPress={sequenceAnimation} />
+      <Button title="Parallel" onPress={parallelAnimation } />
       <Button title="Reset" onPress={resetAll} />
+
 
     </View>
   );

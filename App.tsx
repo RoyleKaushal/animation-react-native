@@ -23,10 +23,20 @@ import DraggableBox from './src/components/GestureFeature';
 import DragList from './src/assignment/DraggableListItem';
 import MovableMusic from './src/assignment/MovableMusic';
 import FadeInExample from './src/Animated/FadeInExample';
+import DragBox from './src/Animated/MoveableBox';
+import GameArena from './src/SnakeGame';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 const { width, height } = Dimensions.get('window');
 
 const App = () => {
-  return <FadeInExample/>;
+  return (
+    <SafeAreaProvider>
+      <GameArena/>
+    </SafeAreaProvider>
+  );
 };
 
 export default App;
